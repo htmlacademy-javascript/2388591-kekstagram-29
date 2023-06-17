@@ -1,17 +1,18 @@
 
-const getStringLength = (string, maxLength) => string.length <= maxLength;
+const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
-getStringLength('проверяемая строка', 20);
-getStringLength('проверяемая строка', 18);
-getStringLength('проверяемая строка', 10);
+checkStringLength('проверяемая строка', 20);
+checkStringLength('проверяемая строка', 18);
+checkStringLength('проверяемая строка', 10);
 
 
-function isPolindrom (string) {
+function isPalindrome (string) {
   let reversedString = '';
+  string = string.toLowerCase().replace(/\s/g, "");
   reversedString = string.split("").reverse().join("");
   return string === reversedString;
 
 }
 
-
-isPolindrom('топот');
+isPalindrome('топот');
+isPalindrome('Лёша на полке клопа нашёл');
