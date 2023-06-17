@@ -8,8 +8,8 @@ checkStringLength('проверяемая строка', 10);
 
 function isPalindrome (string) {
   let reversedString = '';
-  string = string.toLowerCase().replace(/\s/g, "");
-  reversedString = string.split("").reverse().join("");
+  string = string.toLowerCase().replace(/\s/g, '');
+  reversedString = string.split('').reverse().join('');
   return string === reversedString;
 
 }
