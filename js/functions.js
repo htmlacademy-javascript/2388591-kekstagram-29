@@ -16,3 +16,17 @@ function isPalindrome (string) {
 
 isPalindrome('топот');
 isPalindrome('Лёша на полке клопа нашёл');
+
+const getIntegerFromString = (string) => {
+  string = typeof string === Number ? String(string) : string;
+  string = string.replace(/\D/g, '');
+  return string.length > 0 ? parseInt(string) : NaN;
+};
+
+getIntegerFromString('esmi8r5.4a');
+getIntegerFromString('2023 год');
+getIntegerFromString('ECMAScript 2022');
+getIntegerFromString('1 кефир, 0.5 батона');
+getIntegerFromString('агент 007');
+getIntegerFromString('а я томат');
+
