@@ -1,22 +1,32 @@
-/*function getStringLength (string, maxLength) {
-  return string.length <= maxLength;
-}*/
-const getStringLength = (string, maxLength) => string.length <= maxLength;
-console.log('Task #1');
-console.log(getStringLength('проверяемая строка', 20));
-//console.log(getStringLength('проверяемая строка', 18));
-//console.log(getStringLength('проверяемая строка', 10));
+
+const checkStringLength = (string, maxLength) => string.length <= maxLength;
+
+checkStringLength('проверяемая строка', 20);
+checkStringLength('проверяемая строка', 18);
+checkStringLength('проверяемая строка', 10);
 
 
-function isPolindrom (string) {
+function isPalindrome (string) {
   let reversedString = '';
-  /*if(string.includes(' ')) {
-    reversedString = string.replace(/\s/g, '').split("").reverse().join("");
-  }*/
-  reversedString = string.split("").reverse().join("");
+  string = string.toLowerCase().replace(/\s/g, '');
+  reversedString = string.split('').reverse().join('');
   return string === reversedString;
 
 }
-console.log('Task #2');
-console.log(isPolindrom('топот'));
-console.log(isPolindrom('keks'));
+
+isPalindrome('топот');
+isPalindrome('Лёша на полке клопа нашёл');
+
+const getIntegerFromString = (string) => {
+  string = typeof string === Number ? String(string) : string;
+  string = string.replace(/\D/g, '');
+  return string.length > 0 ? parseInt(string) : NaN;
+};
+
+getIntegerFromString('esmi8r5.4a');
+getIntegerFromString('2023 год');
+getIntegerFromString('ECMAScript 2022');
+getIntegerFromString('1 кефир, 0.5 батона');
+getIntegerFromString('агент 007');
+getIntegerFromString('а я томат');
+
