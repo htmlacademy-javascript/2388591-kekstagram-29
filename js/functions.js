@@ -20,7 +20,7 @@ isPalindrome('Лёша на полке клопа нашёл');
 const getIntegerFromString = (string) => {
   string = typeof string === Number ? String(string) : string;
   string = string.replace(/\D/g, '');
-  return string.length > 0 ? parseInt(string) : NaN;
+  return string.length > 0 ? parseInt(string, 10) : NaN;
 };
 
 getIntegerFromString('esmi8r5.4a');
