@@ -71,4 +71,6 @@ const createPhotoArray = function () {
   return photoArray;
 
 };
+
 export {createPhotoArray};
+
