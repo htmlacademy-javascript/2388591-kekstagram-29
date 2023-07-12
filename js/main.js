@@ -1,3 +1,4 @@
-import {createPhotoArray} from './data.js';
-createPhotoArray();
+import './data.js';
+import './miniature.js';
+
 
