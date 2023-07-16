@@ -29,4 +29,3 @@ getIntegerFromString('ECMAScript 2022');
 getIntegerFromString('1 кефир, 0.5 батона');
 getIntegerFromString('агент 007');
 getIntegerFromString('а я томат');
-

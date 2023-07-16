@@ -1,4 +1,4 @@
+import './gallery.js';
 import './data.js';
-import './miniature.js';
-
+import './full-picture.js';
 

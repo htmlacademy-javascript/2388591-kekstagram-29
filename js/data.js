@@ -1,5 +1,5 @@
-import {getRandomArrayElement} from './util.js';
-import {getRandomInteger} from './util.js';
+import { getRandomArrayElement } from './util.js';
+import { getRandomInteger } from './util.js';
 const NAME = [
   'Артём',
   'Мария',
@@ -71,6 +71,5 @@ const createPhotoArray = function () {
   return photoArray;
 
 };
-
-export {createPhotoArray};
+export { createPhotoArray, createComments };
 
