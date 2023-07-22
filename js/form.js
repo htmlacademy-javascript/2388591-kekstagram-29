@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
-
+import { resetScale } from './scale.js';
+import { resetEffect } from './effect.js';
 const VALID_TAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_TAG_COUNT = 5;
 
@@ -43,6 +44,8 @@ const openModal = () => {
 const closeModal = () => {
   form.reset();
   pristine.reset();
+  resetScale();
+  resetEffect();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
 };
