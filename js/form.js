@@ -1,7 +1,9 @@
 import { isEscapeKey } from './util.js';
+import { showSuccessMessage, showError } from './message.js';
+import { sendData } from './api.js';
 import { resetScale } from './scale.js';
 import { resetEffect } from './effect.js';
-const VALID_TAG_PATTERN = /^#[a-zа-яё0-9]{1,19}$/i;
+
 const MAX_TAG_COUNT = 5;
 
 const body = document.querySelector('body');
@@ -11,18 +13,19 @@ const overlay = document.querySelector('.img-upload__overlay');
 const cancelBtn = document.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
-
+const submitButton = document.querySelector('.img-upload__submit');
 const ErrorText = {
   INVALID_TAG: 'Неправильный Хэштег',
   EXCEEDED_COUNT: `Нельзя указать больше ${MAX_TAG_COUNT} хэштегов.`,
   REPEATED_TAGS: 'Хэштеги не должны повторяться.',
 };
 
-const getValidTags = (tagText) => tagText.split(' ').map((tag) => tag.trim()).filter((tag) => tag.length > 0);
+const getValidTags = (tagText) =>
+  tagText.split(' ').map((tag) => tag.trim()).filter((tag) => tag.length > 0);
 
-const hasValidTags = (value) => getValidTags(value).every((tag) => VALID_TAG_PATTERN .test(tag));
+const hasValidTags = (value) => getValidTags(value).every((tag) => /^#[a-zа-яё0-9]{1,19}$/i.test(tag));
 
-const hasExceededTagCount = (value) => getValidTags(value).length <= MAX_TAG_COUNT;
+const hasExceededTagCount = (value) => getValidTags(value).length <= 5;
 
 const hasRepeatedTags = (value) => {
   const lowerCaseTags = getValidTags(value).map((tag) => tag.toLowerCase());
@@ -49,6 +52,7 @@ const closeModal = () => {
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
 };
+
 pristine.addValidator(
   hashtagField,
   hasExceededTagCount,
@@ -80,9 +84,25 @@ function onDocumentKeydown(evt) {
   }
 }
 
-function onFormSubmit (evt) {
+async function onFormSubmit(evt) {
+  evt.preventDefault();
+
   if (!pristine.validate()) {
-    evt.preventDefault();
+    return;
+  }
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+  const formData = new FormData(form);
+
+  try {
+    await sendData(formData);
+    closeModal();
+    showSuccessMessage();
+  } catch (error) {
+    showError();
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Опубликовать';
   }
 }
 function onCancelBtnClick () {
@@ -92,8 +112,9 @@ function onCancelBtnClick () {
 function onImageInputChange () {
   openModal();
 }
+
 function handleEscapeKey(evt) {
-  if (isEscapeKey) {
+  if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
 }
