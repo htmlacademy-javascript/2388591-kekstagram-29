@@ -1,16 +1,26 @@
-const getRandomInteger = function (min, max) {
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  const result = Math.random() * (upper - lower + 1) + lower;
+const ALERT_DURATION = 5000;
+const showAlert = (message) => {
+  const alert = document.createElement('div');
+  const style = alert.style;
+  style.position = 'absolute';
+  style.zIndex = '100';
+  style.left = '0';
+  style.right = '0';
+  style.top = '0';
+  style.padding = '10px 3px';
+  style.fontSize = '15px';
+  style.textAlign = 'center';
+  style.backgroundColor = 'red';
+  alert.textContent = message;
+  document.body.append(alert);
 
-  return Math.floor(result);
-};
-
-const getRandomArrayElement = function (elements){
-  return elements[getRandomInteger(0, elements.length - 1)];
+  setTimeout(() => {
+    alert.remove();
+  }, ALERT_DURATION);
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomArrayElement, getRandomInteger, isEscapeKey};
+export { isEscapeKey, showAlert };
+
 

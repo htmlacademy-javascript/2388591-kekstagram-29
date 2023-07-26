@@ -1,14 +1,10 @@
-import { createPhotoArray } from './data.js';
-
 const pictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-const thumbnails = createPhotoArray();
-
-const createThumbnails = function () {
+const createThumbnails = function (picture) {
   const pictureFragment = document.createDocumentFragment();
 
-  thumbnails.forEach(({url, description, likes, comments, id}) => {
+  picture.forEach(({url, description, likes, comments, id}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('.picture__img').src = url;
@@ -21,4 +17,4 @@ const createThumbnails = function () {
   pictures.appendChild(pictureFragment);
 };
 
-export { createThumbnails, thumbnails };
+export { createThumbnails };
