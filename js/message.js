@@ -39,6 +39,7 @@ const showError = () => {
 
   document.addEventListener('keydown', (evt) => {
     if (evt.key === 'Escape') {
+      evt.stopPropagation();
       closeError();
     }
   });

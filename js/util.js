@@ -1,4 +1,4 @@
-const ALERT_DURATION = 20000;
+const ALERT_DURATION = 5000;
 const showAlert = (message) => {
   const alert = document.createElement('div');
   const style = alert.style;
