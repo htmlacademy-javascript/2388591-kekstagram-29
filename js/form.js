@@ -14,6 +14,7 @@ const cancelBtn = document.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const submitButton = document.querySelector('.img-upload__submit');
+
 const ErrorText = {
   INVALID_TAG: 'Неправильный Хэштег',
   EXCEEDED_COUNT: `Нельзя указать больше ${MAX_TAG_COUNT} хэштегов.`,
@@ -105,6 +106,7 @@ async function onFormSubmit(evt) {
     submitButton.textContent = 'Опубликовать';
   }
 }
+
 function onCancelBtnClick () {
   closeModal();
 }
@@ -118,6 +120,7 @@ function handleEscapeKey(evt) {
     evt.stopPropagation();
   }
 }
+
 
 hashtagField.addEventListener('keydown', handleEscapeKey);
 commentField.addEventListener('keydown', handleEscapeKey);
