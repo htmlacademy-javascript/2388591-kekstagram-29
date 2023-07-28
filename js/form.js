@@ -5,6 +5,7 @@ import { resetScale } from './scale.js';
 import { resetEffect } from './effect.js';
 
 const MAX_TAG_COUNT = 5;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -14,6 +15,10 @@ const cancelBtn = document.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const submitButton = document.querySelector('.img-upload__submit');
+///////////////////////////////////////////////////////////////////
+const fileChooser = document.querySelector('.img-upload__start input[type=file]');
+const Imgpreview = document.querySelector('.img-upload__preview img');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 const ErrorText = {
   INVALID_TAG: 'Неправильный Хэштег',
@@ -80,6 +85,8 @@ pristine.addValidator(
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt)) {
+    evt.stopPropagation();
+
     evt.preventDefault();
     closeModal();
   }
@@ -121,6 +128,20 @@ function handleEscapeKey(evt) {
   }
 }
 
+const onFileInputChange = () => {
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (file && matches) {
+    Imgpreview.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${Imgpreview.src}')`;
+    });
+  }
+  openModal();
+};
+fileChooser.addEventListener('change', onFileInputChange);
 
 hashtagField.addEventListener('keydown', handleEscapeKey);
 commentField.addEventListener('keydown', handleEscapeKey);
