@@ -2,6 +2,7 @@ const pictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const createThumbnails = function (picture) {
+  pictures.querySelectorAll('.picture').forEach((element) => element.remove());
   const pictureFragment = document.createDocumentFragment();
 
   picture.forEach(({url, description, likes, comments, id}) => {

@@ -1,30 +1,44 @@
-import {showAlert} from './util.js';
+import { createThumbnails } from './thumbnails.js';
+import { showAlert, debounce } from './util.js';
 import { getData } from './api.js';
 import { openBigPhoto } from './full-picture.js';
+import { applyFilter, FilterType } from './filters.js';
 
 const pictures = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const imgFilters = document.querySelector('.img-filters');
+const filterButtons = document.querySelectorAll('.img-filters__button');
 
-const createThumbnails = function (photos) {
-  const pictureFragment = document.createDocumentFragment();
+let currentFilter = FilterType.DEFAULT;
+let photos = [];
 
-  photos.forEach(({ url, description, likes, comments, id }) => {
-    const pictureElement = pictureTemplate.cloneNode(true);
+imgFilters.classList.remove('img-filters--inactive');
 
-    pictureElement.querySelector('.picture__img').src = url;
-    pictureElement.querySelector('.picture__img').alt = description;
-    pictureElement.querySelector('.picture__likes').textContent = likes;
-    pictureElement.querySelector('.picture__comments ').textContent = comments.length;
-    pictureElement.dataset.pictureId = id;
-    pictureFragment.append(pictureElement);
-  });
+const applyFilterWithDebounce = debounce(applyFilter);
 
-  pictures.appendChild(pictureFragment);
+const handleFilterClick = (evt) => {
+  const filterId = evt.target.id;
+
+  if (currentFilter === filterId) {
+    return;
+  }
+
+  const activeButton = document.querySelector('.img-filters__button--active');
+  activeButton.classList.remove('img-filters__button--active');
+
+  evt.target.classList.add('img-filters__button--active');
+
+  currentFilter = filterId;
+
+  applyFilterWithDebounce(currentFilter, photos);
 };
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', handleFilterClick);
+});
 
 const renderGallery = async () => {
   try {
-    const photos = await getData();
+    photos = await getData();
     createThumbnails(photos);
 
     pictures.addEventListener('click', (evt) => {
@@ -37,10 +51,10 @@ const renderGallery = async () => {
       openBigPhoto(picture);
     });
   } catch (error) {
-    showAlert(error);
+    showAlert(error.message);
   }
 };
 
 renderGallery();
 
-export { renderGallery };
+
