@@ -64,6 +64,7 @@ const onMoreCommentsClick = () => {
   createComments();
 };
 
+
 function closeBigPhoto() {
   document.removeEventListener('keydown', onEscKeydown);
   showBigPicture(false);
