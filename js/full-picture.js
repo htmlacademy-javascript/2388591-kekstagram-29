@@ -1,18 +1,16 @@
 import { isEscapeKey } from './util.js';
 
 const PER_PAGE_COMMENTS = 5;
-
-const bodyElement = document.querySelector('body');
-const bigPictureElement = document.querySelector('.big-picture');
-const bigPictureCancel = bigPictureElement.querySelector('.big-picture__cancel');
-const shownCommentCount = bigPictureElement.querySelector('.comments-shown');
-const socialCommentLoader = bigPictureElement.querySelector('.comments-loader');
-const socialComments = bigPictureElement.querySelector('.social__comments');
-const socialComment = bigPictureElement.querySelector('.social__comment');
-
-
 let startIndex = 0;
 let allComments = [];
+
+const body = document.querySelector('body');
+const bigPicture = document.querySelector('.big-picture');
+const bigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
+const shownCommentCount = bigPicture.querySelector('.comments-shown');
+const socialCommentLoader = bigPicture.querySelector('.comments-loader');
+const socialComments = bigPicture.querySelector('.social__comments');
+const socialComment = bigPicture.querySelector('.social__comment');
 
 function onEscKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -22,11 +20,11 @@ function onEscKeydown(evt) {
 }
 
 const renderPicterInfo = ({ url, description, likes, comments }) => {
-  bigPictureElement.querySelector('.big-picture__img img').src = url;
-  bigPictureElement.querySelector('.big-picture__img img').alt = description;
-  bigPictureElement.querySelector('.likes-count').textContent = likes;
-  bigPictureElement.querySelector('.comments-count').textContent = comments.length;
-  bigPictureElement.querySelector('.social__caption').textContent = description;
+  bigPicture.querySelector('.big-picture__img img').src = url;
+  bigPicture.querySelector('.big-picture__img img').alt = description;
+  bigPicture.querySelector('.likes-count').textContent = likes;
+  bigPicture.querySelector('.comments-count').textContent = comments.length;
+  bigPicture.querySelector('.social__caption').textContent = description;
 };
 
 function renderCommentElement({ avatar, message, name }) {
@@ -67,9 +65,9 @@ const onMoreCommentsClick = () => {
 };
 
 function closeBigPhoto() {
+  document.removeEventListener('keydown', onEscKeydown);
   showBigPicture(false);
-  bodyElement.classList.remove('modal-open');
-
+  body.classList.remove('modal-open');
 }
 
 function openBigPhoto(data) {
@@ -77,23 +75,24 @@ function openBigPhoto(data) {
   allComments = data.comments;
   socialComments.innerHTML = '';
   showBigPicture(true);
-  bodyElement.classList.add('modal-open');
+  body.classList.add('modal-open');
 
   renderPicterInfo(data);
   createComments();
 
+  document.addEventListener('keydown', onEscKeydown);
   socialCommentLoader.addEventListener('click', onMoreCommentsClick);
 }
 
 function showBigPicture(visible) {
   if (visible) {
-    bigPictureElement.classList.remove('hidden');
+    bigPicture.classList.remove('hidden');
   } else {
-    bigPictureElement.classList.add('hidden');
+    bigPicture.classList.add('hidden');
   }
 }
 
 bigPictureCancel.addEventListener('click', onCancelBtnClick);
-document.addEventListener('keydown', onEscKeydown);
+
 
 export { openBigPhoto };

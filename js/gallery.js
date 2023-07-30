@@ -4,14 +4,12 @@ import { getData } from './api.js';
 import { openBigPhoto } from './full-picture.js';
 import { applyFilter, FilterType } from './filters.js';
 
-const pictures = document.querySelector('.pictures');
-const imgFilters = document.querySelector('.img-filters');
-const filterButtons = document.querySelectorAll('.img-filters__button');
-
 let currentFilter = FilterType.DEFAULT;
 let photos = [];
 
-imgFilters.classList.remove('img-filters--inactive');
+const pictures = document.querySelector('.pictures');
+const imgFilters = document.querySelector('.img-filters');
+const filterButtons = document.querySelectorAll('.img-filters__button');
 
 const applyFilterWithDebounce = debounce(applyFilter);
 
@@ -40,6 +38,8 @@ const renderGallery = async () => {
   try {
     photos = await getData();
     createThumbnails(photos);
+
+    imgFilters.classList.remove('img-filters--inactive');
 
     pictures.addEventListener('click', (evt) => {
       const thumbnail = evt.target.closest('[data-picture-id]');

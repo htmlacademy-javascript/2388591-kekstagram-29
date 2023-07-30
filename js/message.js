@@ -1,48 +1,59 @@
 const body = document.querySelector('body');
 
+let successSection = null;
+let errorSection = null;
+
+const closeSuccessMessage = () => {
+  successSection.remove();
+};
+
+const onEscKeydownSuccess = (e) => {
+  if (e.key === 'Escape') {
+    e.stopImmediatePropagation();
+    document.removeEventListener('keydown', onEscKeydownSuccess);
+    closeSuccessMessage();
+  }
+};
+const closeError = () => {
+  errorSection.remove();
+};
+
+const onEscKeydownError = (e) => {
+  e.stopImmediatePropagation();
+  if (e.key === 'Escape') {
+    document.removeEventListener('keydown', onEscKeydownError);
+    closeError();
+  }
+
+};
+
+const closeSectionOnBodyClick = (section, onBodyClickHandler) => (evt) => {
+  if (evt.target.closest(`.${section.className}__inner`)) {
+    return;
+  }
+  onBodyClickHandler();
+};
+
+const createAndShowSection = (templateId, sectionClassName, onBodyClickHandler, onEscKeydownHandler) => {
+  const template = document.querySelector(templateId);
+  const element = template.content.cloneNode(true);
+  const section = element.querySelector(`.${sectionClassName}`);
+  body.appendChild(element);
+
+  const button = section.querySelector(`.${sectionClassName}__button`);
+  button.addEventListener('click', () => section.remove());
+  body.addEventListener('click', closeSectionOnBodyClick(section, onBodyClickHandler));
+  document.addEventListener('keydown', onEscKeydownHandler);
+
+  return section;
+};
+
 const showSuccessMessage = () => {
-  const successTemplate = document.querySelector('#success');
-  const successElement = successTemplate.content.cloneNode(true);
-  const successSection = successElement.querySelector('.success');
-
-  body.appendChild(successElement);
-
-  const closeSuccessMessage = () => {
-    successSection.remove();
-  };
-
-  const successButton = successSection.querySelector('.success__button');
-  successSection.addEventListener('click', closeSuccessMessage);
-  successButton.addEventListener('click', closeSuccessMessage);
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      closeSuccessMessage();
-    }
-  });
+  successSection = createAndShowSection('#success', 'success', closeSuccessMessage, onEscKeydownSuccess);
 };
 
 const showError = () => {
-  const errorTemplate = document.querySelector('#error');
-  const errorElement = errorTemplate.content.cloneNode(true);
-  const errorSection = errorElement.querySelector('.error');
-
-  body.appendChild(errorElement);
-
-  const closeError = () => {
-    errorSection.remove();
-  };
-
-  const errorButton = errorSection.querySelector('.error__button');
-  errorSection.addEventListener('click', closeError);
-  errorButton.addEventListener('click', closeError);
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      evt.stopPropagation();
-      closeError();
-    }
-  });
+  errorSection = createAndShowSection('#error', 'error', closeError, onEscKeydownError);
 };
 
 export { showSuccessMessage, showError };
