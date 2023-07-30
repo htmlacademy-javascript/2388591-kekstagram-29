@@ -7,9 +7,9 @@ const closeSuccessMessage = () => {
   successSection.remove();
 };
 
-const onEscKeydownSuccess = (e) => {
-  if (e.key === 'Escape') {
-    e.stopImmediatePropagation();
+const onEscKeydownSuccess = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopImmediatePropagation();
     document.removeEventListener('keydown', onEscKeydownSuccess);
     closeSuccessMessage();
   }
@@ -18,9 +18,9 @@ const closeError = () => {
   errorSection.remove();
 };
 
-const onEscKeydownError = (e) => {
-  e.stopImmediatePropagation();
-  if (e.key === 'Escape') {
+const onEscKeydownError = (evt) => {
+  evt.stopImmediatePropagation();
+  if (evt.key === 'Escape') {
     document.removeEventListener('keydown', onEscKeydownError);
     closeError();
   }
