@@ -1,7 +1,7 @@
 const ALERT_DURATION = 5000;
 const showAlert = (message) => {
-  const alert = document.createElement('div');
-  const style = alert.style;
+  const alertElement = document.createElement('div');
+  const style = alertElement.style;
   style.position = 'absolute';
   style.zIndex = '100';
   style.left = '0';
@@ -11,11 +11,11 @@ const showAlert = (message) => {
   style.fontSize = '15px';
   style.textAlign = 'center';
   style.backgroundColor = 'red';
-  alert.textContent = message;
-  document.body.append(alert);
+  alertElement.textContent = message;
+  document.body.append(alertElement);
 
   setTimeout(() => {
-    alert.remove();
+    alertElement.remove();
   }, ALERT_DURATION);
 };
 
