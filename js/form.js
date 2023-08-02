@@ -15,14 +15,14 @@ const ErrorText = {
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const imageInput = document.querySelector('.img-upload__input');
-const overlay = document.querySelector('.img-upload__overlay');
+const imgOverlay = document.querySelector('.img-upload__overlay');
 const cancelBtn = document.querySelector('.img-upload__cancel');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
 const submitButton = document.querySelector('.img-upload__submit');
 
 const fileChooser = document.querySelector('.img-upload__start input[type=file]');
-const Imgpreview = document.querySelector('.img-upload__preview img');
+const imgPreview = document.querySelector('.img-upload__preview img');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
 
 const getValidTags = (tagText) =>
@@ -48,7 +48,7 @@ const pristine = new Pristine(form, {
 });
 
 const openModal = () => {
-  overlay.classList.remove('hidden');
+  imgOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   hashtagField.addEventListener('keydown', handleEscapeKey);
@@ -64,7 +64,7 @@ const closeModal = () => {
   pristine.reset();
   resetScale();
   resetEffect();
-  overlay.classList.add('hidden');
+  imgOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
 };
 
@@ -145,9 +145,9 @@ const onFileInputChange = () => {
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (file && matches) {
-    Imgpreview.src = URL.createObjectURL(file);
+    imgPreview.src = URL.createObjectURL(file);
     effectsPreviews.forEach((preview) => {
-      preview.style.backgroundImage = `url('${Imgpreview.src}')`;
+      preview.style.backgroundImage = `url('${imgPreview.src}')`;
     });
   }
   openModal();
